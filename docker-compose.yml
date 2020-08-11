@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  nats:
+    image: 'nats:0.8.0'
+    entrypoint: "/gnatsd -DV"
+    ports:
+      - "4222:4222"
+  server:
+    image: golang:1.14.6-alpine
+    volumes:
+      - ${PWD}:/app
+    working_dir: /app
+    entrypoint: go run main.go
+    links:
+      - nats
